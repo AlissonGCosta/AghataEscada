@@ -15,18 +15,20 @@ public class EmployeeCreate {
 
     private final PasswordConifg conifg;
 
+    // creating a entity
+
     public EmployeeEntity createEmployee(EmployeeRequestDto dto) {
 
-        EmployeeEntity employee = new EmployeeEntity();
-        employee.setName(dto.name());
-        employee.setPosition(dto.position());
-        employee.setCltNumber(dto.cltNumber());
-        employee.setPassword(conifg.passwordEncoder().encode(dto.password()));
-        employee.setEnumEmployee(EmployeeEnum.ROLE_USER);
-        employee.setCreatedAT(LocalDate.now());
-        employee.setUpdatedAT(LocalDate.now());
+        EmployeeEntity employer = new EmployeeEntity();
+        employer.setName(dto.name());
+        employer.setPosition(dto.position());
+        employer.setCltNumber(dto.cltNumber());
+        employer.setPassword(conifg.passwordEncoder().encode(dto.password()));
+        employer.setEnumEmployee(EmployeeEnum.ROLE_USER);
+        employer.setCreatedAT(LocalDate.now());
+        employer.setUpdatedAT(LocalDate.now());
 
 
-        return employee;
+        return employer;
     }
 }
