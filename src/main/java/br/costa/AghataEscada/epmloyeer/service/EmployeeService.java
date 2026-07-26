@@ -48,22 +48,31 @@ public class EmployeeService {
 
         return  employeeRepository.findAll().stream().map(
                 (employer -> new EmployeeResponseDto(
+                        employer.getEmployeId(),
                         employer.getName(),
                         employer.getPosition(),
                         employer.getCltNumber(),
                         employer.getSector()
 
                 ))
-
         ).toList();
     }
 
     // find a unique employer method
-
     public EmployeeResponseDto findEmployeeById(UUID id){
         EmployeeEntity employee =  employeeRepository.findById(id)
-        .orElseThrow(() -> new RessourceNotFoundException("employeer not found"));
+        .orElseThrow(() -> new RessourceNotFoundException("employer not found"));
 
         return employerMapper.entetyToResponse(employee);
+    }
+
+    // delete employer for id
+    public void deleteEmployeeById(UUID id){
+
+       EmployeeEntity emp = employeeRepository.findById(id)
+                .orElseThrow(() -> new RessourceNotFoundException("employer not found"));
+
+       employeeRepository.delete(emp);
+
     }
 }
