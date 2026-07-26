@@ -24,7 +24,6 @@ public class EmployerController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public EmployeeResponseDto createEmployee( @RequestBody @Valid EmployeeRequestDto dto){
-
         return service.createEmployee(dto);
     }
 
@@ -38,5 +37,11 @@ public class EmployerController {
     @ResponseStatus(HttpStatus.OK)
     public EmployeeResponseDto getEmployeeById(@PathVariable UUID id){
         return service.findEmployeeById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEmployeeById(@PathVariable UUID id){
+        service.deleteEmployeeById(id);
     }
 }
