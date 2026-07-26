@@ -4,8 +4,7 @@ public record EmployeeResponseDto(
         String name,
         String position,
         String cltNumber,
-        String sector,
-        String password
+        String sector
 
 ) {
 

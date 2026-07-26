@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class EmployeeCreate {
 
-    private final PasswordConifg conifg;
+    private final PasswordConifg config;
 
     // creating a entity
 
@@ -23,12 +23,11 @@ public class EmployeeCreate {
         employer.setName(dto.name());
         employer.setPosition(dto.position());
         employer.setCltNumber(dto.cltNumber());
-        employer.setPassword(conifg.passwordEncoder().encode(dto.password()));
+        employer.setSector(dto.sector());
+        employer.setPassword(config.passwordEncoder().encode(dto.password()));
         employer.setEnumEmployee(EmployeeEnum.ROLE_USER);
         employer.setCreatedAT(LocalDate.now());
         employer.setUpdatedAT(LocalDate.now());
-
-
         return employer;
     }
 }

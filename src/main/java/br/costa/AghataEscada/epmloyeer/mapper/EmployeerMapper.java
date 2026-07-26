@@ -1,5 +1,6 @@
 package br.costa.AghataEscada.epmloyeer.mapper;
 
+import br.costa.AghataEscada.epmloyeer.entity.EmployeeEntity;
 import br.costa.AghataEscada.epmloyeer.entity.dto.request.EmployeeRequestDto;
 import br.costa.AghataEscada.epmloyeer.entity.dto.response.EmployeeResponseDto;
 import org.springframework.stereotype.Component;
@@ -11,14 +12,25 @@ public class EmployeerMapper {
     // mapped the request into response
     public EmployeeResponseDto toEmployeeResponseDto(EmployeeRequestDto dto) {
 
-        EmployeeResponseDto employeeResponseDto = new EmployeeResponseDto(
+        return new EmployeeResponseDto(
                 dto.name(),
                 dto.position(),
-                dto.sector(),
-                dto.password(),
-                dto.cltNumber()
+                dto.cltNumber(),
+                dto.sector()
+
         );
 
-        return employeeResponseDto;
+
+    }
+
+    // method fpr entity tu response
+    public EmployeeResponseDto entetyToResponse(EmployeeEntity entity){
+
+        return new EmployeeResponseDto(
+                entity.getName(),
+                entity.getPosition(),
+                entity.getCltNumber(),
+                entity.getSector()
+        );
     }
 }

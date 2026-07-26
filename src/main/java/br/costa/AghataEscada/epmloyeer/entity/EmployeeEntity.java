@@ -2,7 +2,9 @@ package br.costa.AghataEscada.epmloyeer.entity;
 
 import br.costa.AghataEscada.epmloyeer.entity.enumemployee.EmployeeEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDate;
 import java.util.UUID;
