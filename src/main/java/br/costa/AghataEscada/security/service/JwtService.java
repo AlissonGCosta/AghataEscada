@@ -46,7 +46,7 @@ public class JwtService {
                 .subject(dto.getCltNumber())
                 .claim("id", dto.getEmployeId())
                 .claim("name", dto.getName())
-                .claim("role", dto.getEnumEmployee().name())
+                .claim("role", dto.getRoles().name())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(getSigninKey())
