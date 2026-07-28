@@ -17,7 +17,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("{/login}")
+    @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public LoginEmployerResponseDto login(@RequestBody @Valid LoginEmployerRequestDto dto) {
         return authService.login(dto);
