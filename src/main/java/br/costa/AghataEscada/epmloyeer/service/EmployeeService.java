@@ -3,14 +3,18 @@ package br.costa.AghataEscada.epmloyeer.service;
 import br.costa.AghataEscada.config.PasswordConifg;
 import br.costa.AghataEscada.epmloyeer.entity.EmployeeEntity;
 import br.costa.AghataEscada.epmloyeer.entity.dto.request.EmployeeRequestDto;
+import br.costa.AghataEscada.epmloyeer.entity.dto.request.PutEmployerRequestDto;
+import br.costa.AghataEscada.epmloyeer.entity.dto.request.PutPassword;
 import br.costa.AghataEscada.epmloyeer.entity.dto.response.EmployeeResponseDto;
 import br.costa.AghataEscada.epmloyeer.entity.enumemployee.EmployeeEnum;
 import br.costa.AghataEscada.epmloyeer.mapper.EmployeerMapper;
 import br.costa.AghataEscada.epmloyeer.repository.EmployeeRepository;
 import br.costa.AghataEscada.epmloyeer.service.create.EmployeeCreate;
 import br.costa.AghataEscada.epmloyeer.service.validate.EmployeeValidateService;
+import br.costa.AghataEscada.exception.errorcase.BusinessException;
 import br.costa.AghataEscada.exception.errorcase.RessourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,7 +30,7 @@ public class EmployeeService {
     private final EmployeeValidateService employeeValidateService;
     private final EmployeeCreate  employeeCreate;
     private final EmployeerMapper employerMapper;
-    private final PasswordConifg config;
+    private final PasswordEncoder passwordEncoder;
 
     public EmployeeResponseDto createEmployee(EmployeeRequestDto dto) {
 
@@ -75,4 +79,33 @@ public class EmployeeService {
        employeeRepository.delete(emp);
 
     }
+    // put new atributes in employer entity
+    public EmployeeResponseDto updateEmployeeById(UUID id, PutEmployerRequestDto dto){
+        EmployeeEntity emp = employeeRepository.findById(id)
+                .orElseThrow(() -> new RessourceNotFoundException("employer not found"));
+
+        emp.setSector(dto.sector());
+        emp.setPosition(dto.position());
+        emp.setCltNumber(dto.cltNumber());
+        emp.setName(dto.name());
+
+        employeeRepository.save(emp);
+
+        return employerMapper.putToEmployeeResponseDto(dto);
+    }
+    // patch for password reset
+    public void passwordReset(UUID id, PutPassword dto){
+        EmployeeEntity emp = employeeRepository.findById(id)
+                .orElseThrow(() -> new RessourceNotFoundException("employer not found"));
+
+        if(!passwordEncoder.matches(dto.currentPassword(), emp.getPassword())){
+            throw new BusinessException("wrong password");
+        }
+
+        emp.setPassword(passwordEncoder.encode(dto.newPassword()));
+
+        employeeRepository.save(emp);
+    }
+
+
 }
