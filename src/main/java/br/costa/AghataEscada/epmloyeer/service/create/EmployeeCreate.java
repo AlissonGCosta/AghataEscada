@@ -25,7 +25,7 @@ public class EmployeeCreate {
         employer.setCltNumber(dto.cltNumber());
         employer.setSector(dto.sector());
         employer.setPassword(config.passwordEncoder().encode(dto.password()));
-        employer.setEnumEmployee(EmployeeEnum.ROLE_USER);
+        employer.setRoles(EmployeeEnum.ROLE_USER);
         employer.setCreatedAT(LocalDate.now());
         employer.setUpdatedAT(LocalDate.now());
         return employer;
