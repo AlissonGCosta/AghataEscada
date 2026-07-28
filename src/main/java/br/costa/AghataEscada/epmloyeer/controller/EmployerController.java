@@ -55,7 +55,7 @@ public class EmployerController {
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void resetPassword(@PathVariable UUID id, PutPassword dto){
+    public void resetPassword(@PathVariable UUID id,@RequestBody PutPassword dto){
         service.passwordReset(id, dto);
     }
 }
