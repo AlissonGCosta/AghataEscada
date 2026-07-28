@@ -36,7 +36,7 @@ public class EmployeeEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private EmployeeEnum enumEmployee;
+    private EmployeeEnum roles;
 
     @Column(nullable = false)
     private String password;
