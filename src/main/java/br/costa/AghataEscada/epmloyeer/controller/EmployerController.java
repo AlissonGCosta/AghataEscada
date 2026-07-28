@@ -21,7 +21,7 @@ public class EmployerController {
 
     private final EmployeeService service;
 
-    @PostMapping
+    @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public EmployeeResponseDto createEmployee( @RequestBody @Valid EmployeeRequestDto dto){
         return service.createEmployee(dto);
