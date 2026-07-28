@@ -30,7 +30,7 @@ public class EmployeeService {
     private final EmployeeValidateService employeeValidateService;
     private final EmployeeCreate  employeeCreate;
     private final EmployeerMapper employerMapper;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordConifg config;
 
     public EmployeeResponseDto createEmployee(EmployeeRequestDto dto) {
 
@@ -98,11 +98,11 @@ public class EmployeeService {
         EmployeeEntity emp = employeeRepository.findById(id)
                 .orElseThrow(() -> new RessourceNotFoundException("employer not found"));
 
-        if(!passwordEncoder.matches(dto.currentPassword(), emp.getPassword())){
+        if(!config.passwordEncoder().matches(dto.currentPassword(), emp.getPassword())){
             throw new BusinessException("wrong password");
         }
 
-        emp.setPassword(passwordEncoder.encode(dto.newPassword()));
+        emp.setPassword(config.passwordEncoder().encode(dto.newPassword()));
 
         employeeRepository.save(emp);
     }
