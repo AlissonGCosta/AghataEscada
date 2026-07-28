@@ -1,6 +1,8 @@
 package br.costa.AghataEscada.epmloyeer.controller;
 
 import br.costa.AghataEscada.epmloyeer.entity.dto.request.EmployeeRequestDto;
+import br.costa.AghataEscada.epmloyeer.entity.dto.request.PutEmployerRequestDto;
+import br.costa.AghataEscada.epmloyeer.entity.dto.request.PutPassword;
 import br.costa.AghataEscada.epmloyeer.entity.dto.response.EmployeeResponseDto;
 import br.costa.AghataEscada.epmloyeer.service.EmployeeService;
 import jakarta.validation.Valid;
@@ -43,5 +45,17 @@ public class EmployerController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEmployeeById(@PathVariable UUID id){
         service.deleteEmployeeById(id);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public EmployeeResponseDto updateEmployeeById(@PathVariable UUID id, @RequestBody @Valid PutEmployerRequestDto dto){
+        return service.updateEmployeeById(id, dto);
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void resetPassword(@PathVariable UUID id, PutPassword dto){
+        service.passwordReset(id, dto);
     }
 }
