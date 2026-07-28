@@ -33,6 +33,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/v1/employer/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/employer/{id}" ).hasAuthority("ROLE_ADMIN")
                         .requestMatchers(HttpMethod.GET, "/v1/employer" ).hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.PUT).permitAll()
+                        .requestMatchers(HttpMethod.PATCH).permitAll()
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers
