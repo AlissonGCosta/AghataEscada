@@ -1,12 +1,12 @@
 package br.costa.AghataEscada.epmloyeer.entity;
 
 import br.costa.AghataEscada.epmloyeer.entity.enumemployee.EmployeeEnum;
+import br.costa.AghataEscada.productstorage.entity.ProductStorageEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -46,5 +46,8 @@ public class EmployeeEntity {
 
     @Column(nullable = false)
     private LocalDate updatedAT;
+
+    @OneToMany(mappedBy = "employer")
+    private List<ProductStorageEntity> productStorageEntity;
 
 }
