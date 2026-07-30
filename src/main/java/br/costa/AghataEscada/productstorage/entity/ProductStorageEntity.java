@@ -2,6 +2,7 @@ package br.costa.AghataEscada.productstorage.entity;
 
 import br.costa.AghataEscada.epmloyeer.entity.EmployeeEntity;
 import br.costa.AghataEscada.productstorage.entity.productenum.ProductStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,6 +33,7 @@ public class ProductStorageEntity {
     private Integer quantity;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private ProductStatus status;
 
     @Column(nullable = false)
@@ -42,7 +44,9 @@ public class ProductStorageEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_employee", nullable = false)
+    @JsonBackReference
     private EmployeeEntity employer;
+
 
 
 }
