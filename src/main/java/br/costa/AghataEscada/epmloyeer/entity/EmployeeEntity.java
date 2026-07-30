@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,6 +51,6 @@ public class EmployeeEntity {
 
     @OneToMany(mappedBy = "employer")
     @JsonManagedReference
-    private List<ProductStorageEntity> productStorageEntity;
+    private List<ProductStorageEntity> productStorageEntity = new ArrayList<>();
 
 }
