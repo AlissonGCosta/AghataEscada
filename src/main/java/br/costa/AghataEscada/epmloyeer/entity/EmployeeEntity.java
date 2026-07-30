@@ -2,6 +2,7 @@ package br.costa.AghataEscada.epmloyeer.entity;
 
 import br.costa.AghataEscada.epmloyeer.entity.enumemployee.EmployeeEnum;
 import br.costa.AghataEscada.productstorage.entity.ProductStorageEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -48,6 +49,7 @@ public class EmployeeEntity {
     private LocalDate updatedAT;
 
     @OneToMany(mappedBy = "employer")
+    @JsonManagedReference
     private List<ProductStorageEntity> productStorageEntity;
 
 }
