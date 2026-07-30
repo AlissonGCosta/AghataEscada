@@ -17,16 +17,18 @@ public class ProductMapper {
 
     public ProductStorageResponsetDto toProductStorageResponseDto(ProductStorageRequestDto dto){
 
-        ProductStorageEntity product = productStorageRepository.findByPart(dto.part())
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+      return  productStorageRepository.findAll().stream().reduce((first, second) -> second).map(
+                pt -> new ProductStorageResponsetDto(
+                        pt.getId(),
+                        dto.name(),
+                        dto.part(),
+                        dto.quantity(),
+                        pt.getStatus(),
+                        mapper.entetyToResponse(pt.getEmployer())
+                )
+        )
+              .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        return new ProductStorageResponsetDto(
-                product.getId(),
-                dto.name(),
-                dto.part(),
-                dto.quantity(),
-                product.getStatus(),
-                mapper.entetyToResponse(product.getEmployer())
-        );
+
     }
 }
