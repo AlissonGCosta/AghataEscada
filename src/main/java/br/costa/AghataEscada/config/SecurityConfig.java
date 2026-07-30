@@ -35,6 +35,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/v1/employer" ).hasAuthority("ROLE_ADMIN")
                         .requestMatchers(HttpMethod.PUT).permitAll()
                         .requestMatchers(HttpMethod.PATCH).permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/product/{id}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers
