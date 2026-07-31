@@ -31,4 +31,16 @@ public class ProductMapper {
 
 
     }
+
+    public ProductStorageResponsetDto toProductStorageResponseDto(ProductStorageEntity pt){
+
+        return new ProductStorageResponsetDto(
+                pt.getId(),
+                pt.getName(),
+                pt.getPart(),
+                pt.getQuantity(),
+                pt.getStatus(),
+                mapper.entetyToResponse(pt.getEmployer())
+        );
+    }
 }
