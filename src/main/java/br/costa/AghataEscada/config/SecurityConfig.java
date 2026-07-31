@@ -36,6 +36,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT).permitAll()
                         .requestMatchers(HttpMethod.PATCH).permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/product/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/product").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/product/{id}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers
