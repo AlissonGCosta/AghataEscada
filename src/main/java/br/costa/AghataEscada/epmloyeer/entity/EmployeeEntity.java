@@ -50,7 +50,6 @@ public class EmployeeEntity {
     private LocalDate updatedAT;
 
     @OneToMany(mappedBy = "employer")
-    @JsonManagedReference
     private List<ProductStorageEntity> productStorageEntity = new ArrayList<>();
 
 }

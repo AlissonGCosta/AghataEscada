@@ -44,7 +44,7 @@ public class ProductStorageEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_employee", nullable = false)
-    @JsonBackReference
+
     private EmployeeEntity employer;
 
 
