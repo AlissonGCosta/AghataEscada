@@ -7,11 +7,14 @@ import br.costa.AghataEscada.exception.errorcase.RessourceNotFoundException;
 import br.costa.AghataEscada.productstorage.entity.ProductStorageEntity;
 import br.costa.AghataEscada.productstorage.entity.dto.request.ProductStorageRequestDto;
 import br.costa.AghataEscada.productstorage.entity.dto.response.ProductStorageResponsetDto;
+import br.costa.AghataEscada.productstorage.entity.productenum.ProductStatus;
 import br.costa.AghataEscada.productstorage.mapper.ProductMapper;
 import br.costa.AghataEscada.productstorage.repository.ProductStorageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -66,5 +69,53 @@ public class ProdutcStorageService {
                 .orElseThrow(() -> new RessourceNotFoundException("Product not found"));
 
         return productMapper.toProductStorageResponseDto(product);
+    }
+
+    // method put products
+    public ProductStorageResponsetDto putProduct(UUID empId,UUID id, ProductStorageRequestDto dto){
+
+        // simple validate for employer
+        employeeRepository.findById(empId)
+                .orElseThrow(() -> new RessourceNotFoundException("employer not found"));
+
+
+        // simple validate for product
+        ProductStorageEntity product = productStorageRepository.findById(id)
+                .orElseThrow(() -> new RessourceNotFoundException("product not found"));
+
+        // put in variables products
+        product.setName(dto.name());
+        product.setPart(dto.part());
+        product.setQuantity(dto.quantity());
+        product.setUpdatedAt(LocalDateTime.now());
+
+
+        // saving in repository
+        productStorageRepository.save(product);
+
+        return productMapper.toProductStorageResponseDto(dto);
+
+    }
+
+    // method patch for status
+    public ProductStorageResponsetDto patcStatusUnusable(UUID empId,UUID id){
+        // simple validate for employer
+        employeeRepository.findById(empId)
+                .orElseThrow(() -> new RessourceNotFoundException("employer not found"));
+
+
+        // simple validate for product
+        ProductStorageEntity product = productStorageRepository.findById(id)
+                .orElseThrow(() -> new RessourceNotFoundException("product not found"));
+
+
+        // put in variables products
+        product.setStatus(ProductStatus.UNUSABLE);
+
+        // saving in repository
+        productStorageRepository.save(product);
+
+        return productMapper.toProductStorageResponseDto(product);
+
     }
 }
