@@ -37,4 +37,20 @@ public class ProductController {
     public ProductStorageResponsetDto findProductStorageById(@PathVariable UUID id) {
         return produtcStorageService.findProductStorageById(id);
     }
+
+    @PutMapping("/{empId}/product/{prodId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ProductStorageResponsetDto putProduct(@PathVariable UUID empId,
+                                                 @PathVariable UUID prodId,
+                                                 @RequestBody @Valid ProductStorageRequestDto dto){
+        return produtcStorageService.putProduct(empId, prodId, dto);
+    }
+
+    @PatchMapping("/{empId}/product/{prodId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ProductStorageResponsetDto patcStatusUnusable(@PathVariable UUID empId,
+                                                         @PathVariable UUID prodId){
+        return produtcStorageService.patcStatusUnusable(empId, prodId);
+    }
+
 }
