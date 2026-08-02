@@ -1,6 +1,5 @@
 package br.costa.AghataEscada.productstorage.service;
 
-import br.costa.AghataEscada.epmloyeer.entity.EmployeeEntity;
 import br.costa.AghataEscada.epmloyeer.mapper.EmployeerMapper;
 import br.costa.AghataEscada.epmloyeer.repository.EmployeeRepository;
 import br.costa.AghataEscada.exception.errorcase.RessourceNotFoundException;
@@ -13,7 +12,6 @@ import br.costa.AghataEscada.productstorage.repository.ProductStorageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -93,7 +91,7 @@ public class ProdutcStorageService {
         // saving in repository
         productStorageRepository.save(product);
 
-        return productMapper.toProductStorageResponseDto(dto);
+        return productMapper.toProductStorageResponseDto(product);
 
     }
 
@@ -118,4 +116,8 @@ public class ProdutcStorageService {
         return productMapper.toProductStorageResponseDto(product);
 
     }
+
+//    public void deletProduct(){
+//
+//    }
 }
