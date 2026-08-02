@@ -13,6 +13,9 @@ import br.costa.AghataEscada.epmloyeer.service.create.EmployeeCreate;
 import br.costa.AghataEscada.epmloyeer.service.validate.EmployeeValidateService;
 import br.costa.AghataEscada.exception.errorcase.BusinessException;
 import br.costa.AghataEscada.exception.errorcase.RessourceNotFoundException;
+import br.costa.AghataEscada.productstorage.entity.dto.response.ProductStorageResponsetDto;
+import br.costa.AghataEscada.productstorage.repository.ProductStorageRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,7 @@ import java.util.UUID;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final ProductStorageRepository productStorageRepository;
     private final EmployeeValidateService employeeValidateService;
     private final EmployeeCreate  employeeCreate;
     private final EmployeerMapper employerMapper;
@@ -71,6 +75,7 @@ public class EmployeeService {
     }
 
     // delete employer for id
+    @Transactional
     public void deleteEmployeeById(UUID id){
 
        EmployeeEntity emp = employeeRepository.findById(id)
@@ -105,6 +110,7 @@ public class EmployeeService {
         emp.setPassword(config.passwordEncoder().encode(dto.newPassword()));
 
         employeeRepository.save(emp);
+
     }
 
 
