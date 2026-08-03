@@ -1,6 +1,7 @@
 package br.costa.AghataEscada.epmloyeer.entity;
 
 import br.costa.AghataEscada.epmloyeer.entity.enumemployee.EmployeeEnum;
+import br.costa.AghataEscada.outstorage.entity.OutStorageEntity;
 import br.costa.AghataEscada.productstorage.entity.ProductStorageEntity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -51,5 +52,8 @@ public class EmployeeEntity {
 
     @OneToMany(mappedBy = "employer")
     private List<ProductStorageEntity> productStorageEntity = new ArrayList<>();
+
+    @OneToMany(mappedBy = "employee")
+    private List<OutStorageEntity> outStorageEntities = new ArrayList<>();
 
 }
