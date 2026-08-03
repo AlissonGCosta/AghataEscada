@@ -3,6 +3,7 @@ package br.costa.AghataEscada.productstorage.service;
 import br.costa.AghataEscada.epmloyeer.mapper.EmployeerMapper;
 import br.costa.AghataEscada.epmloyeer.repository.EmployeeRepository;
 import br.costa.AghataEscada.exception.errorcase.RessourceNotFoundException;
+import br.costa.AghataEscada.managerstorage.service.ProductStorageManagerService;
 import br.costa.AghataEscada.productstorage.entity.ProductStorageEntity;
 import br.costa.AghataEscada.productstorage.entity.dto.request.ProductStorageRequestDto;
 import br.costa.AghataEscada.productstorage.entity.dto.response.ProductStorageResponsetDto;
@@ -28,6 +29,10 @@ public class ProdutcStorageService {
     private final ValidateProduct validateProduct;
     private final CreateProduct createProduct;
 
+    // third services
+    private final ProductStorageManagerService productStorageManagerService;
+
+
     // calling the mapper
     private final ProductMapper productMapper;
     private final EmployeerMapper employerMapper;
@@ -40,6 +45,9 @@ public class ProdutcStorageService {
 
         //calling the creator and saving
         productStorageRepository.save(createProduct.create(id, dto));
+
+        // saving in the manager table
+        productStorageManagerService.attManagerTable();
 
         return productMapper.toProductStorageResponseDto(dto);
 
