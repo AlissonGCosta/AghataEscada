@@ -30,6 +30,7 @@ public class ManagerStorageEntity {
     private String productPart;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private ProductStorageManagerEnum status;
 
     @Column(nullable = false)
