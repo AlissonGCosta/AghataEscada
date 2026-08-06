@@ -1,6 +1,7 @@
 package br.costa.AghataEscada.managerstorage.controller;
 
 import br.costa.AghataEscada.managerstorage.dto.request.ManagerStorageRequestDto;
+import br.costa.AghataEscada.managerstorage.dto.request.ManagerStorageRequestFindNameDto;
 import br.costa.AghataEscada.managerstorage.dto.response.ManagerStorageResponseDto;
 import br.costa.AghataEscada.managerstorage.service.ProductStorageManagerService;
 import jakarta.validation.Valid;
@@ -35,6 +36,18 @@ public class ManagerStoragerController {
     public ManagerStorageResponseDto update(@PathVariable UUID id, @RequestBody @Valid ManagerStorageRequestDto dto){
 
         return managerService.putManagerProduct(id, dto);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<ManagerStorageResponseDto> findByName(@RequestBody @Valid ManagerStorageRequestFindNameDto dto){
+        return managerService.findManagerStorageByName(dto);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable UUID id){
+        managerService.deleteManagerProduct(id);
     }
 
 }
