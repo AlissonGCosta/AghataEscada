@@ -3,6 +3,7 @@ package br.costa.AghataEscada.managerstorage.service;
 import br.costa.AghataEscada.exception.errorcase.ConflictException;
 import br.costa.AghataEscada.exception.errorcase.RessourceNotFoundException;
 import br.costa.AghataEscada.managerstorage.dto.request.ManagerStorageRequestDto;
+import br.costa.AghataEscada.managerstorage.dto.request.ManagerStorageRequestFindNameDto;
 import br.costa.AghataEscada.managerstorage.dto.response.ManagerStorageResponseDto;
 import br.costa.AghataEscada.managerstorage.entity.ManagerStorageEntity;
 import br.costa.AghataEscada.managerstorage.entity.mapper.ManagerMapper;
@@ -72,7 +73,7 @@ public class ProductStorageManagerService {
         managerRepository.saveAll(managerProducts);
     }
 
-
+    // method find all
     public List<ManagerStorageResponseDto> findAllProductsManager(){
 
         return managerRepository.findAll().stream()
@@ -87,7 +88,7 @@ public class ProductStorageManagerService {
                 ))
                 .toList();
     }
-
+    // method findById
     public ManagerStorageResponseDto findManagerProductById(UUID id){
 
         ManagerStorageEntity product = managerRepository.findById(id)
@@ -95,6 +96,27 @@ public class ProductStorageManagerService {
 
 
         return managerMapper.toResponseDto(product);
+
+    }
+
+    // method findBy name
+    public List<ManagerStorageResponseDto> findManagerStorageByName(ManagerStorageRequestFindNameDto dto){
+
+        if(managerRepository.findManagerStorageByNameProduct(dto.nameProduct()).isEmpty()){
+            throw new RessourceNotFoundException("product not found");
+        }
+
+        return managerRepository.findManagerStorageByNameProduct(dto.nameProduct()).stream()
+                .map(pt -> new ManagerStorageResponseDto(
+                        pt.getId(),
+                        pt.getNameProduct(),
+                        pt.getProductQuantity(),
+                        pt.getProductPart(),
+                        pt.getStatus(),
+                        pt.getCreatedAt(),
+                        pt.getUpdatedAt()
+                ))
+                .toList();
 
     }
 
@@ -119,6 +141,14 @@ public class ProductStorageManagerService {
         managerRepository.save(product);
 
         return managerMapper.toResponseDto(product);
+    }
+
+    //method delete by id
+    public void deleteManagerProduct(UUID id){
+        ManagerStorageEntity mgItem = managerRepository.findById(id)
+                .orElseThrow(() -> new RessourceNotFoundException("product not found"));
+
+        managerRepository.delete(mgItem);
     }
 
 }
