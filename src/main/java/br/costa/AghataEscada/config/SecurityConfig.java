@@ -28,6 +28,13 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer:: disable)
                 .authorizeHttpRequests(auth -> auth
+
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/employer/register").permitAll()
@@ -43,6 +50,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/v1/manager").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/manager/{id}").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/v1/manager/{id}").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/manager").permitAll()
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers
