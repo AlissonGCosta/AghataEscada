@@ -46,7 +46,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/v1/product").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/product/{id}").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/v1/product/{empId}/product/{prodId}").permitAll()
-                        .requestMatchers(HttpMethod.PATCH, "/v1/product/{empId}/product/{prodId}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/manager").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/manager/{id}").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/v1/manager/{id}").permitAll()
