@@ -10,6 +10,7 @@ import br.costa.AghataEscada.productstorage.entity.dto.response.ProductStorageRe
 import br.costa.AghataEscada.productstorage.entity.productenum.ProductStatus;
 import br.costa.AghataEscada.productstorage.mapper.ProductMapper;
 import br.costa.AghataEscada.productstorage.repository.ProductStorageRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,7 @@ public class ProdutcStorageService {
     private final EmployeerMapper employerMapper;
 
     // method for creating a adiction in db
+    @Transactional
     public ProductStorageResponsetDto addProductStorage(UUID id, ProductStorageRequestDto dto) {
 
         // calling the validator
@@ -47,7 +49,7 @@ public class ProdutcStorageService {
         productStorageRepository.save(createProduct.create(id, dto));
 
         // saving in the manager table
-        productStorageManagerService.attManagerTable();
+        productStorageManagerService.attManagerTable(dto.name(), dto.part(), dto.quantity());
 
         return productMapper.toProductStorageResponseDto(dto);
 
@@ -56,76 +58,27 @@ public class ProdutcStorageService {
     // method find all
     public List<ProductStorageResponsetDto> findAllProductStorage() {
 
-            return productStorageRepository.findAll().stream()
-                    .map( pt -> new ProductStorageResponsetDto(
-                            pt.getId(),
-                            pt.getName(),
-                            pt.getPart(),
-                            pt.getQuantity(),
-                            pt.getStatus(),
-                            employerMapper.entetyToResponse(pt.getEmployer())
-                    ))
-                    .toList();
+        return productStorageRepository.findAll().stream()
+                .map(pt -> new ProductStorageResponsetDto(
+                        pt.getId(),
+                        pt.getName(),
+                        pt.getPart(),
+                        pt.getQuantity(),
+                        pt.getStatus(),
+                        employerMapper.entetyToResponse(pt.getEmployer())
+                ))
+                .toList();
 
     }
 
     // method find by id
     public ProductStorageResponsetDto findProductStorageById(UUID id) {
-        ProductStorageEntity product =  productStorageRepository.findById(id)
+        ProductStorageEntity product = productStorageRepository.findById(id)
                 .orElseThrow(() -> new RessourceNotFoundException("Product not found"));
 
         return productMapper.toProductStorageResponseDto(product);
     }
 
-    // method put products
-    public ProductStorageResponsetDto putProduct(UUID empId,UUID id, ProductStorageRequestDto dto){
-
-        // simple validate for employer
-        employeeRepository.findById(empId)
-                .orElseThrow(() -> new RessourceNotFoundException("employer not found"));
 
 
-        // simple validate for product
-        ProductStorageEntity product = productStorageRepository.findById(id)
-                .orElseThrow(() -> new RessourceNotFoundException("product not found"));
-
-        // put in variables products
-        product.setName(dto.name());
-        product.setPart(dto.part());
-        product.setQuantity(dto.quantity());
-        product.setUpdatedAt(LocalDateTime.now());
-
-
-        // saving in repository
-        productStorageRepository.save(product);
-
-        return productMapper.toProductStorageResponseDto(product);
-
-    }
-
-    // method patch for status
-    public ProductStorageResponsetDto patcStatusUnusable(UUID empId,UUID id){
-        // simple validate for employer
-        employeeRepository.findById(empId)
-                .orElseThrow(() -> new RessourceNotFoundException("employer not found"));
-
-
-        // simple validate for product
-        ProductStorageEntity product = productStorageRepository.findById(id)
-                .orElseThrow(() -> new RessourceNotFoundException("product not found"));
-
-
-        // put in variables products
-        product.setStatus(ProductStatus.UNUSABLE);
-
-        // saving in repository
-        productStorageRepository.save(product);
-
-        return productMapper.toProductStorageResponseDto(product);
-
-    }
-
-//    public void deletProduct(){
-//
-//    }
 }

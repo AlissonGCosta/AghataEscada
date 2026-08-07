@@ -21,33 +21,22 @@ public class ManagerStoragerController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<ManagerStorageResponseDto> findAllProductsManager(){
+    public List<ManagerStorageResponseDto> findAllProductsManager() {
         return managerService.findAllProductsManager();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ManagerStorageResponseDto findById(@PathVariable UUID id){
+    public ManagerStorageResponseDto findById(@PathVariable UUID id) {
         return managerService.findManagerProductById(id);
     }
 
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ManagerStorageResponseDto update(@PathVariable UUID id, @RequestBody @Valid ManagerStorageRequestDto dto){
-
-        return managerService.putManagerProduct(id, dto);
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<ManagerStorageResponseDto> findByName(@RequestBody @Valid ManagerStorageRequestFindNameDto dto){
+    public List<ManagerStorageResponseDto> findByName(@RequestBody @Valid ManagerStorageRequestFindNameDto dto) {
         return managerService.findManagerStorageByName(dto);
     }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(@PathVariable UUID id){
-        managerService.deleteManagerProduct(id);
-    }
-
 }
+
+

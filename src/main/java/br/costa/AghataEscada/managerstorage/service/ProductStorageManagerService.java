@@ -11,7 +11,9 @@ import br.costa.AghataEscada.managerstorage.entity.storageenum.ProductStorageMan
 import br.costa.AghataEscada.managerstorage.repository.ProductStorageManagerRepository;
 import br.costa.AghataEscada.managerstorage.repository.ProductSummary;
 import br.costa.AghataEscada.productstorage.entity.ProductStorageEntity;
+import br.costa.AghataEscada.productstorage.entity.dto.request.ProductStorageRequestDto;
 import br.costa.AghataEscada.productstorage.repository.ProductStorageRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,41 +38,26 @@ public class ProductStorageManagerService {
     private final ManagerMapper managerMapper;
 
     // method for add in manager table
-    public void attManagerTable(){
+    @Transactional
+    public void attManagerTable(String name, String part, Integer quantity) {
+        ManagerStorageEntity managerEnt =  managerRepository.findByNameProductAndProductPart(name, part)
+                .orElse(null);
 
-       List<ProductSummary> products =  productStorageRepository.findProductSummary();
+        if(managerEnt == null) {
+            managerEnt = new ManagerStorageEntity();
+            managerEnt.setNameProduct(name);
+            managerEnt.setProductPart(part);
+            managerEnt.setProductQuantity(quantity);
+            managerEnt.setStatus(ProductStorageManagerEnum.USABLE);
+            managerEnt.setCreatedAt(LocalDate.now());
+        }else {
+            managerEnt.setProductQuantity(managerEnt.getProductQuantity() + quantity);
+        }
 
-       Map<String, ManagerStorageEntity> existingProducts =
-               managerRepository.findAll().stream()
-                       .collect(Collectors.toMap(
-                               ManagerStorageEntity::getProductPart,
-                               Function.identity()
-                       ));
+        managerEnt.setUpdatedAt(LocalDate.now());
+        managerRepository.save(managerEnt);
 
-       List<ManagerStorageEntity> managerProducts = products.stream()
-               .map(product -> {
-                   ManagerStorageEntity manager =
-                           existingProducts.getOrDefault(
-                                   product.getPart(),
-                                   new ManagerStorageEntity()
-                           );
-                   manager.setNameProduct(product.getName());
-                   manager.setProductPart(product.getPart());
-                   manager.setProductQuantity(
-                           Math.toIntExact(product.getQuantity())
-                   );
-                   manager.setStatus(ProductStorageManagerEnum.USABLE);
 
-                   if(manager.getCreatedAt() == null){
-                       manager.setCreatedAt(LocalDate.now());
-                   }
-                   manager.setUpdatedAt(LocalDate.now());
-
-                   return manager;
-               })
-               .toList();
-
-        managerRepository.saveAll(managerProducts);
     }
 
     // method find all
@@ -118,37 +105,6 @@ public class ProductStorageManagerService {
                 ))
                 .toList();
 
-    }
-
-    // method for put atributes
-    public ManagerStorageResponseDto putManagerProduct(UUID id, ManagerStorageRequestDto dto ){
-        ManagerStorageEntity product = managerRepository.findById(id)
-                .orElseThrow(() -> new RessourceNotFoundException("product not found"));
-
-        if(dto.nameProduct() == product.getNameProduct()){
-            throw new ConflictException("product name already exists");
-        }
-
-        if(dto.productPart() == product.getProductPart()){
-            throw new ConflictException("product part already exists");
-        }
-
-        product.setNameProduct(dto.nameProduct());
-        product.setProductPart(dto.productPart());
-        product.setProductQuantity(dto.productQuantity());
-
-
-        managerRepository.save(product);
-
-        return managerMapper.toResponseDto(product);
-    }
-
-    //method delete by id
-    public void deleteManagerProduct(UUID id){
-        ManagerStorageEntity mgItem = managerRepository.findById(id)
-                .orElseThrow(() -> new RessourceNotFoundException("product not found"));
-
-        managerRepository.delete(mgItem);
     }
 
 }
