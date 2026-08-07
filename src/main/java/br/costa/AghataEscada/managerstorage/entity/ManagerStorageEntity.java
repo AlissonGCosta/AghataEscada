@@ -7,7 +7,11 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Table(name = "storage_manager")
+@Table(name = "storage_manager",
+        uniqueConstraints = @UniqueConstraint(
+                columnNames = {"product_name", "product_part"}
+        )
+    )
 @Entity
 @Getter
 @Setter
